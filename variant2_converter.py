@@ -1,6 +1,6 @@
 """
 Вариант 2. Конвертер единиц измерения
-Практическая работа 1
+Практические работы 1 и 2
 
 Программа предлагает пользователю выбрать тип преобразования единиц,
 запрашивает значение и выводит результат конвертации.
@@ -26,6 +26,16 @@ def meters_to_feet(meters: float) -> float:
     return meters * 3.28084
 
 
+def liters_to_gallons(liters: float) -> float:
+    """Перевод литров в американские жидкие галлоны."""
+    return liters / 3.785411784
+
+
+def megabytes_to_gigabytes(megabytes: float) -> float:
+    """Перевод мегабайтов в гигабайты: 1 ГБ = 1000 МБ."""
+    return megabytes / 1000
+
+
 def get_positive_number(prompt: str) -> float:
     """
     Безопасный ввод положительного числа.
@@ -42,9 +52,8 @@ def get_positive_number(prompt: str) -> float:
             print("Ошибка: введите корректное число.")
 
 
-def main() -> None:
-    """Основная функция программы."""
-    print("=== Конвертер единиц измерения ===\n")
+def perform_conversion() -> None:
+    """Выбор и выполнение одного преобразования."""
 
     # Меню выбора преобразования
     print("Выберите конвертер:")
@@ -52,15 +61,17 @@ def main() -> None:
     print("2. Километры -> Мили")
     print("3. Килограммы -> Фунты")
     print("4. Метры -> Футы")
+    print("5. Литры -> Американские галлоны")
+    print("6. Мегабайты -> Гигабайты")
 
     # Запрос выбора пользователя
     while True:
         choice = input("\nВаш выбор: ").strip()
-        if choice in ("1", "2", "3", "4"):
+        if choice in ("1", "2", "3", "4", "5", "6"):
             break
         else:
             # Обработка неизвестного номера преобразования
-            print("Ошибка: неизвестный номер преобразования. Введите число от 1 до 4.")
+            print("Ошибка: неизвестный номер преобразования. Введите число от 1 до 6.")
 
     # В зависимости от выбора запрашиваем значение и выполняем конвертацию
     if choice == "1":
@@ -82,6 +93,32 @@ def main() -> None:
         value = get_positive_number("Введите длину (м): ")
         result = meters_to_feet(value)
         print(f"\n{value} м = {result:.2f} футов")
+
+    elif choice == "5":
+        value = get_positive_number("Введите объём (л): ")
+        result = liters_to_gallons(value)
+        print(f"\n{value} л = {result:.2f} американских галлонов")
+
+    elif choice == "6":
+        value = get_positive_number("Введите объём данных (МБ): ")
+        result = megabytes_to_gigabytes(value)
+        print(f"\n{value} МБ = {result:.3f} ГБ")
+
+
+def main() -> None:
+    """Повторяет преобразования, пока пользователь не выберет выход."""
+    print("=== Конвертер единиц измерения ===\n")
+    while True:
+        perform_conversion()
+        while True:
+            answer = input("\nВыполнить ещё одно преобразование? (да/нет): ").strip().lower()
+            if answer in ("да", "нет"):
+                break
+            print("Ошибка: введите «да» или «нет».")
+        if answer == "нет":
+            print("Работа программы завершена.")
+            break
+        print()
 
 
 if __name__ == "__main__":
